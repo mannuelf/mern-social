@@ -1,0 +1,22 @@
+{
+  "name": "mern-social",
+  "version": "1.0.0",
+  "description": "build a MERN app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mannuelf/mern-social.git"
+  },
+  "keywords": [
+    "MERN"
+  ],
+  "author": "Mannuel Ferreira",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mannuelf/mern-social/issues"
+  },
+  "homepage": "https://github.com/mannuelf/mern-social#readme"
+}
