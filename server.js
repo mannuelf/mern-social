@@ -5,6 +5,9 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 connectDB();
 
+// Init Middleware
+app.use(express.json({ extend: false }));
+
 app.get("/", (req, res) => res.send("API Running"));
 
 // Routes
