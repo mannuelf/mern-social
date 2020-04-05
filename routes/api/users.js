@@ -20,7 +20,7 @@ const validateInputs = [
   @access Public
 */
 router.post("/", validateInputs, async (req, res) => {
-  
+
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -31,7 +31,7 @@ router.post("/", validateInputs, async (req, res) => {
   try {
     let user = await User.findOne({ email });
     if (user) {
-      res.status(400).json({ errors: [{ msg: "User already exists" }] });
+      return res.status(400).json({ errors: [{ msg: "User already exists" }] });
     }
 
     const avatar = gravatar.url(email, {
