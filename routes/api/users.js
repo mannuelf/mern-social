@@ -8,6 +8,11 @@ const jwt = require("jsonwebtoken");
 const config = require("../../config/services");
 const User = require("../../models/User");
 
+/*
+  @route POST api/users
+  @desc Register user
+  @access Public
+*/
 const validateInputs = [
   check("name", "name is required").not().isEmpty(),
   check("email", "please include a valid email").isEmail(),
@@ -16,12 +21,6 @@ const validateInputs = [
     "please enter a password with 6 or more characters"
   ).isLength({min: 6}),
 ];
-
-/*
-  @rout POST api/users
-  @desc Register user
-  @access Public
-*/
 router.post("/", validateInputs, async (req, res) => {
 
   const errors = validationResult(req);
