@@ -27,7 +27,7 @@ router.get("/", auth, async (req, res) => {
   @desc Authenticate user & get token
   @access Public
 */
-const validateInputs = [
+const validateAuthInputs = [
   check("email", "please include a valid email").isEmail(),
   check(
     "password",
@@ -35,7 +35,7 @@ const validateInputs = [
   ).exists(),
 ];
 
-router.post("/", validateInputs,
+router.post("/", validateAuthInputs,
   async (req, res) => {
     const errors = validationResult(req);
 
