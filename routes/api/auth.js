@@ -8,7 +8,7 @@ const config = require("../../config/services");
 const User = require("../../models/User");
 
 /*
-  @rout GET api/auth
+  @route GET api/auth
   @desc Test route
   @access Public
 */

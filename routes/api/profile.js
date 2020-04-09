@@ -7,7 +7,7 @@ const Profile = require("../../models/Profile");
 const User = require("../../models/User");
 
 /*
-  @rout GET api/profile/me
+  @route GET api/profile/me
   @desc Get current users profile
   @access Private
 */
@@ -26,7 +26,7 @@ router.get("/me", auth,
   });
 
 /*
-  @rout POST api/profile
+  @route POST api/profile
   @desc Create or update user profile
   @access Private
 */
@@ -90,5 +90,13 @@ router.post("/", [auth, validateProfileInputs], async (req, res) => {
     console.log(err.message);
   }
 });
+
+
+/*
+  @route GET api/profile
+  @desc Get all profiles
+  @access Public
+*/
+
 
 module.exports = router;
