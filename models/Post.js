@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema();
+const Schema = mongoose.Schema;
 
-const PostSchema = Schema({
+const PostSchema = new Schema({
   user: {
-    type: Schema.Types.ObjectId,
-    ref: "users"
+    type: mongoose.Schema.Types.ObjectId, // points to the _id field in record.
+    ref: "user" // create reference to the User model, every post should be associated with a user.
   },
   name: {
     type: String
@@ -18,7 +18,7 @@ const PostSchema = Schema({
   },
   likes: [{
     users: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "users"
     }
   }],
