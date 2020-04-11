@@ -107,10 +107,10 @@ router.delete("/:id", auth,
 router.put("/like:id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    if (post.likes.filter((like) => like.users.toString() === req.user.id).length > 0) {
+    if (post.likes.filter((like) => like.users.toString() === req.users.id).length > 0) {
       return res.status(400).json({msg: "Post already liked"});
     }
-    post.likes.unshift(req.user.id);
+    post.likes.unshift({users: req.user.id});
     await post.save();
   } catch (err) {
     console.error(err.message);
