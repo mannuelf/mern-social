@@ -100,20 +100,25 @@ router.delete("/:id", auth,
   });
 
 /*
-  @route PUT api/posts/like:id
+  @route PUT api/posts/like/:id
   @desc Like a post by id
   @access Private
 */
-router.put("/like:id", auth, async (req, res) => {
+router.put("/like/:id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    if (post.likes.filter((like) => like.users.toString() === req.users.id).length > 0) {
+
+    const likedPosts = post.likes.filter((like) => like.user.toString() === req.user.id);
+
+    if (likedPosts.length > 0) {
       return res.status(400).json({msg: "Post already liked"});
     }
-    post.likes.unshift({users: req.user.id});
+
+    post.likes.unshift({user: req.user.id});
+
     await post.save();
   } catch (err) {
-    console.error(err.message);
+    console.error("🔥", err.message);
     res.status(500).send("Server Error");
   }
 });
