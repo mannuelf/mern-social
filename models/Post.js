@@ -25,7 +25,13 @@ const PostSchema = new Schema({
   date: {
     type: Date,
     default: Date.now,
-  }
+  },
+  comments: [{
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user"
+    }
+  }]
 });
 
 module.exports = Post = mongoose.model("post", PostSchema);

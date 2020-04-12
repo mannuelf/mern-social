@@ -150,4 +150,69 @@ router.put("/unlike/:id", auth, async (req, res) => {
   }
 });
 
+/*
+  @route GET api/posts/comment/:id
+  @desc Create a comment
+  @access Private
+*/
+router.post("/comment/:id", [auth, [check("text", "Text is require").not().isEmpty()]],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({errors: errors.array()});
+    }
+
+    try {
+      console.log("🤖", "got here")
+      const user = await User.findById(req.user.id).select("-password");
+      const post = await Post.findById(req.params.id);
+
+      // instantiate new comment object.
+      const newComment = {
+        text: req.body.text,
+        name: user.name,
+        avatar: user.avatar,
+        user: req.user.id,
+      };
+      post.comment.unshift(newComment);
+      await post.save();
+      await res.json(post.comment);
+    } catch (err) {
+      console.log(err.message);
+      return res.status(500).send("No user found");
+    }
+  });
+
+/*
+  @route DELETE api/posts/comment/:id/:comment_id
+  @desc Delete a comment
+  @access Private
+*/
+router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    // Pull comment out
+    const comment = post.comments.find(comment => comment.id === req.params.comment_id);
+    // make sure comment exists
+    if (!comment) {
+      return res.status(404).json({msg: "Comment does not exist"});
+    }
+    // Check user
+    if (comment.user.toString() !== req.user.id) {
+      return res.status(401).json({msg: "User is not authorised"});
+    }
+    // Remove index
+    const removeIndex = post.comments
+      .map(comment => comment.user.toString())
+      .indexOf(req.user.id);
+
+    post.comments.splice(removeIndex, 1);
+    await post.save();
+    await res.json(post.comments);
+  } catch (e) {
+    console.log(e.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;
