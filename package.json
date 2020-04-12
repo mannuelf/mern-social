@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node server",
     "server": "nodemon server",
+    "client": "yarn start --prefix client",
+    "dev": "concurrently \"yarn run server\" \"yarn run client \"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
