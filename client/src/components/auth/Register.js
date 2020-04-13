@@ -34,7 +34,7 @@ const Register = () => {
         const body = JSON.stringify(newUser);
         const res = await Axios.post("/api/users", body, config);
       } catch(err) {
-        console.error(err.response);
+        console.err(err.message);
       }
     }
   };
