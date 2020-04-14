@@ -1,4 +1,5 @@
 import {REGISTER_SUCCESS, REGISTER_FAIL} from "./types";
+import {setAlert} from "./alert";
 import Axios from "axios";
 
 // Register user
@@ -20,10 +21,14 @@ export const register = ({name, email, password}) => async dispatch => {
     });
 
   } catch (err) {
-    console.error(err.message);
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")))
+    }
 
     dispatch({
       type: REGISTER_FAIL,
-    })
+    });
+    console.error(err.message);
   }
 }
