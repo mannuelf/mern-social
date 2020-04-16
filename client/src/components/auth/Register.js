@@ -2,7 +2,6 @@ import React, {Fragment, useState} from 'react';
 import {connect} from "react-redux";
 import {Link, Redirect} from "react-router-dom";
 import {PropTypes} from "prop-types";
-import Axios from "axios";
 
 import {setAlert} from "../../store/actions/alert";
 import {register} from "../../store/actions/auth";
