@@ -17,3 +17,4 @@ export const getCurrentProfile = () => async dispatch => {
     console.log(err.message)
   }
 }
+
