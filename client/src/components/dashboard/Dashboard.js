@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import {getCurrentProfile} from "../../store/actions/profile";
 import Spinner from "../layout/Spinner";
+import {Link} from "react-router-dom";
 
 const Dashboard = ({getCurrentProfile, auth: {user}, profile: {profile, loading}}) => {
   useEffect(() => {
@@ -17,9 +18,12 @@ const Dashboard = ({getCurrentProfile, auth: {user}, profile: {profile, loading}
       <i className="fas fa-user"> Welcome {user && user.name}</i>
     </p>
     {profile !== null ? (
-      <Fragment>has</Fragment>
+      <Fragment>has profile</Fragment>
     ) : (
-      <Fragment>has not</Fragment>
+      <Fragment>
+        <p>You have not got a profile yet, please add some information.</p>
+        <Link to="/create-profile" className="btn btn-primary my-1">Create Profile</Link>
+      </Fragment>
     )}
   </Fragment>;
 };
