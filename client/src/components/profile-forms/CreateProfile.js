@@ -3,7 +3,6 @@ import {Link, withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
 import {createProfile} from "../../store/actions/profile";
-import mapStateToProps from "react-redux/lib/connect/mapStateToProps";
 
 const CreateProfile = ({createProfile, history}) => {
   const [formData, setFormData] = useState({
@@ -114,7 +113,7 @@ const CreateProfile = ({createProfile, history}) => {
           <span>Optional</span>
         </div>
 
-        { displaySocialInputs && <Fragment>
+        {displaySocialInputs && <Fragment>
           <div className="form-group social-input">
             <i className="fab fa-twitter fa-2x"></i>
             <input type="text" placeholder="Twitter URL" name="twitter" value={twitter} onChange={e => onChange(e)}/>
@@ -137,7 +136,8 @@ const CreateProfile = ({createProfile, history}) => {
 
           <div className="form-group social-input">
             <i className="fab fa-instagram fa-2x"></i>
-            <input type="text" placeholder="Instagram URL" name="instagram" value={instagram} onChange={e => onChange(e)}/>
+            <input type="text" placeholder="Instagram URL" name="instagram" value={instagram}
+                   onChange={e => onChange(e)}/>
           </div>
         </Fragment>}
 
