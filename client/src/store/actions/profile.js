@@ -1,6 +1,6 @@
 import Axios from "axios";
 import {setAlert} from "./alert";
-import {GET_PROFILE, PROFILE_ERROR} from "./types";
+import {GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE} from "./types";
 
 export const getCurrentProfile = () => async dispatch => {
   try {
@@ -18,7 +18,7 @@ export const getCurrentProfile = () => async dispatch => {
   }
 }
 
-// Create of update profile
+// Create or update profile
 export const createProfile = (
   formData,
   history,
@@ -44,6 +44,76 @@ export const createProfile = (
     if (!edit) {
       history.push("/dashboard");
     }
+  } catch (err) {
+    console.log(err.message);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    }
+
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {msg: err.response.statusText, status: err.response.status}
+    })
+  }
+}
+
+// Add Experience
+export const addExperience = (formData, history) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+
+    const res = await Axios.put("/api/profile/experience", formData, config);
+
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data
+    })
+
+    dispatch(setAlert("Experience added", "success"));
+
+    // go to the dashboard page on success.
+    history.push("/dashboard");
+  } catch (err) {
+    console.log(err.message);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    }
+
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {msg: err.response.statusText, status: err.response.status}
+    })
+  }
+}
+
+// Add Education
+export const addEducation = (formData, history) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+
+    const res = await Axios.put("/api/profile/education", formData, config);
+
+    dispatch({
+      type: UPDATE_PROFILE,
+      payload: res.data
+    })
+
+    dispatch(setAlert("Education added", "success"));
+
+    // go to the dashboard page on success.
+    history.push("/dashboard");
   } catch (err) {
     console.log(err.message);
     const errors = err.response.data.errors;
