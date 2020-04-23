@@ -1,15 +1,15 @@
 import React, {Fragment, useEffect} from 'react';
+import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import {getCurrentProfile} from "../../store/actions/profile";
 import Spinner from "../layout/Spinner";
-import {Link} from "react-router-dom";
 import DashboardActions from "./DashboardActions";
 
 const Dashboard = ({getCurrentProfile, auth: {user}, profile: {profile, loading}}) => {
   useEffect(() => {
     getCurrentProfile();
-  }, []);
+  }, [loading]);
 
   return loading && profile === null ? <Spinner/> : <Fragment>
     <h1 className="large text-primary">
