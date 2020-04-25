@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import {getCurrentProfile} from "../../store/actions/profile";
 import Spinner from "../layout/Spinner";
 import DashboardActions from "./DashboardActions";
+import Experience from "./Experience";
+import Education from "./Education";
 
 const Dashboard = ({getCurrentProfile, auth: {user}, profile: {profile, loading}}) => {
   useEffect(() => {
@@ -20,7 +22,9 @@ const Dashboard = ({getCurrentProfile, auth: {user}, profile: {profile, loading}
     </p>
     {profile !== null ? (
       <Fragment>
-        <DashboardActions />
+        <DashboardActions/>
+        <Experience experience={profile.experience}/>
+        <Education education={profile.education}/>
       </Fragment>
     ) : (
       <Fragment>
