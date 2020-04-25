@@ -1,10 +1,10 @@
 import React, {Fragment, useState} from "react";
-import {Link, withRouter} from "react-router-dom";
+import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {addExperience} from "../../store/actions/profile";
 
-const AddExperience = (AddExperience, history) => {
+const AddExperience = ({addExperience, history}) => {
   const [formData, setFromData] = useState({
     company: "",
     title: "",
@@ -39,7 +39,7 @@ const AddExperience = (AddExperience, history) => {
         <div className="form-group">
           <input type="text" placeholder="* Job Title" name="title"
                  value={title}
-                 onChange={(e) => onChange(e)} required/>
+                 onChange={e => onChange(e)} required/>
         </div>
         <div className="form-group">
           <input type="text" placeholder="* Company" name="company"
