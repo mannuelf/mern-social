@@ -7,7 +7,7 @@ const request = require("request");
 const config = require("../../config/services");
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
-const Post = require("../../models/Post"):
+const Post = require("../../models/Post");
 
 /*
   @route GET api/profile/me

@@ -5,7 +5,9 @@ import {
   GET_PROFILE,
   PROFILE_ERROR,
   UPDATE_PROFILE,
-  ACCOUNT_DELETED
+  ACCOUNT_DELETED,
+  GET_PROFILES,
+  GET_REPOS
 } from "./types";
 
 export const getCurrentProfile = () => async dispatch => {
@@ -19,8 +21,55 @@ export const getCurrentProfile = () => async dispatch => {
     dispatch({
       type: PROFILE_ERROR,
       payload: {msg: err.response.statusText, status: err.response.status}
-    })
-    console.log(err.message)
+    });
+  }
+}
+
+// Get all the current profiles
+export const getProfiles = () => async dispatch => {
+  dispatch({type: CLEAR_PROFILE}); // clear profiles first before getting.
+  try {
+    const res = await Axios.get("/api/profile");
+    dispatch({
+      type: GET_PROFILES,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {msg: err.response.statusText, status: err.response.status}
+    });
+  }
+}
+
+// Get all the current profiles
+export const getProfileById = userId => async dispatch => {
+  try {
+    const res = await Axios.get(`/api/profile/user/${userId}`);
+    dispatch({
+      type: GET_PROFILE,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {msg: err.response.statusText, status: err.response.status}
+    });
+  }
+}
+// Get github repos
+export const getGithubRepos = username => async dispatch => {
+  try {
+    const res = await Axios.get(`/api/profile/github/${username}`);
+    dispatch({
+      type: GET_REPOS,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {msg: err.response.statusText, status: err.response.status}
+    });
   }
 }
 
@@ -51,7 +100,6 @@ export const createProfile = (
       history.push("/dashboard");
     }
   } catch (err) {
-    console.log(err.message);
     const errors = err.response.data.errors;
 
     if (errors) {
@@ -86,7 +134,6 @@ export const addExperience = (formData, history) => async dispatch => {
     // go to the dashboard page on success.
     history.push("/dashboard");
   } catch (err) {
-    console.log(err.message);
     const errors = err.response.data.errors;
 
     if (errors) {
@@ -121,7 +168,6 @@ export const addEducation = (formData, history) => async dispatch => {
     // go to the dashboard page on success.
     history.push("/dashboard");
   } catch (err) {
-    console.log(err.message);
     const errors = err.response.data.errors;
 
     if (errors) {
@@ -170,7 +216,7 @@ export const deleteAccount = () => async dispatch => {
   if (window.confirm("Are you sure? The action cannot be undone")) {
     try {
       const res = await Axios.delete("/api/profile");
-      dispatch({type: CLEAR_PROFILE});
+      dispatch({type: CLEAR_PROFILE, payload: res.data});
       dispatch({type: ACCOUNT_DELETED});
       dispatch(setAlert("Your account has been permanently DELETED"));
     } catch (err) {
