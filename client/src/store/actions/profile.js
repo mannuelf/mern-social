@@ -27,7 +27,7 @@ export const getCurrentProfile = () => async dispatch => {
 
 // Get all the current profiles
 export const getProfiles = () => async dispatch => {
-  dispatch({type: CLEAR_PROFILE}); // clear profiles first before getting.
+  // dispatch({type: CLEAR_PROFILE}); // clear profiles first before getting.
   try {
     const res = await Axios.get("/api/profile");
     dispatch({
@@ -35,7 +35,6 @@ export const getProfiles = () => async dispatch => {
       payload: res.data
     });
   } catch (err) {
-    console.log(err.message)
     dispatch({
       type: PROFILE_ERROR,
       payload: {msg: err.response.statusText, status: err.response.status}
@@ -185,9 +184,9 @@ export const addEducation = (formData, history) => async dispatch => {
 // Delete an experience
 export const deleteExperience = id => async dispatch => {
   try {
-    const res = await Axios.delete(`/api/profile/experience/${id}`);
+    await Axios.delete(`/api/profile/experience/${id}`);
 
-    dispatch({type: UPDATE_PROFILE, payload: res.data});
+    dispatch({type: UPDATE_PROFILE});
     dispatch(setAlert("Experience removed", "success"))
   } catch (err) {
     dispatch({
@@ -200,9 +199,9 @@ export const deleteExperience = id => async dispatch => {
 // Delete education
 export const deleteEducation = id => async dispatch => {
   try {
-    const res = await Axios.delete(`/api/profile/education/${id}`);
+    await Axios.delete(`/api/profile/education/${id}`);
 
-    dispatch({type: UPDATE_PROFILE, payload: res.data});
+    dispatch({type: UPDATE_PROFILE});
     dispatch(setAlert("Education removed", "success"));
   } catch (err) {
     dispatch({
