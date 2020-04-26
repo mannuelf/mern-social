@@ -1,4 +1,5 @@
 import React, {Fragment} from "react";
+import PropTypes from "prop-types";
 
 const ProfileAbout = ({profile: {bio, skills, user: {name}}}) => {
   return (
@@ -27,5 +28,7 @@ const ProfileAbout = ({profile: {bio, skills, user: {name}}}) => {
   );
 }
 
-ProfileAbout.propTypes = {}
+ProfileAbout.propTypes = {
+  profile: PropTypes.object.isRequired
+}
 export default ProfileAbout;
