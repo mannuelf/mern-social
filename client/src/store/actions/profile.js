@@ -27,7 +27,7 @@ export const getCurrentProfile = () => async dispatch => {
 
 // Get all the current profiles
 export const getProfiles = () => async dispatch => {
-  // dispatch({type: CLEAR_PROFILE}); // clear profiles first before getting.
+  dispatch({type: CLEAR_PROFILE}); // clear profiles first before getting.
   try {
     const res = await Axios.get("/api/profile");
     dispatch({
@@ -184,9 +184,9 @@ export const addEducation = (formData, history) => async dispatch => {
 // Delete an experience
 export const deleteExperience = id => async dispatch => {
   try {
-    await Axios.delete(`/api/profile/experience/${id}`);
+    const res = await Axios.delete(`/api/profile/experience/${id}`);
 
-    dispatch({type: UPDATE_PROFILE});
+    dispatch({type: UPDATE_PROFILE, payload: res.data});
     dispatch(setAlert("Experience removed", "success"))
   } catch (err) {
     dispatch({
@@ -199,9 +199,9 @@ export const deleteExperience = id => async dispatch => {
 // Delete education
 export const deleteEducation = id => async dispatch => {
   try {
-    await Axios.delete(`/api/profile/education/${id}`);
+    const res = await Axios.delete(`/api/profile/education/${id}`);
 
-    dispatch({type: UPDATE_PROFILE});
+    dispatch({type: UPDATE_PROFILE, payload: res.data });
     dispatch(setAlert("Education removed", "success"));
   } catch (err) {
     dispatch({
@@ -215,8 +215,9 @@ export const deleteEducation = id => async dispatch => {
 export const deleteAccount = () => async dispatch => {
   if (window.confirm("Are you sure? The action cannot be undone")) {
     try {
-      const res = await Axios.delete("/api/profile");
-      dispatch({type: CLEAR_PROFILE, payload: res.data});
+      await Axios.delete("/api/profile");
+
+      dispatch({type: CLEAR_PROFILE});
       dispatch({type: ACCOUNT_DELETED});
       dispatch(setAlert("Your account has been permanently DELETED"));
     } catch (err) {
