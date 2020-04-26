@@ -17,11 +17,11 @@ const Post = require("../../models/Post");
 router.get("/me", auth,
   async (req, res) => {
     try {
-      const profile = await Profile.findOne({user: req.user.id}).populate("user", ["name", "avatar"]);
+      const profile = await Profile.findOne({user: req.user.id}).populate("user", ["_id", "name", "avatar"]);
 
       if (!profile) return res.status(400).json({msg: "There is no profile for this user"});
 
-      await res.json(profile);
+      res.json(profile);
     } catch (err) {
       console.log("🔥", err.message);
       res.status(500).send("Server Error");
@@ -88,7 +88,7 @@ router.post("/", [auth, validateProfileInputs], async (req, res) => {
     }
     profile = new Profile(profileFields);
     await profile.save();
-    await res.json(profile);
+    res.json(profile);
   } catch (err) {
     console.log(err.message);
   }
@@ -101,8 +101,8 @@ router.post("/", [auth, validateProfileInputs], async (req, res) => {
 */
 router.get("/", async (req, res) => {
   try {
-    const profiles = await Profile.find().populate("user", ["name", "avatar"]);
-    await res.json(profiles);
+    const profiles = await Profile.find().populate("user", ["_id", "name", "avatar"]);
+    res.json(profiles);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("server Error");
@@ -116,9 +116,9 @@ router.get("/", async (req, res) => {
 */
 router.get("/user/:user_id", async (req, res) => {
   try {
-    const profile = await Profile.findOne({user: req.params.user_id}).populate("user", ["name", "avatar"]);
+    const profile = await Profile.findOne({user: req.params.user_id}).populate("user", ["_id", "name", "avatar"]);
     if (!profile) return res.status(400).json({msg: "Profile not found"});
-    await res.json(profile);
+    res.json(profile);
   } catch (err) {
     console.error(err.message);
     if (err.kind === "ObjectId") {
@@ -139,7 +139,7 @@ router.delete("/", auth, async (req, res) => {
     await Profile.findOneAndRemove({user: req.user.id});
     await User.findOneAndRemove({_id: req.user.id});
     await Profile.findOneAndRemove({_id: req.user.id});
-    await res.json({msg: "User removed"});
+    res.json({msg: "User removed"});
   } catch (err) {
     console.error(err.message);
     res.status(500).send("server Error");
@@ -188,7 +188,7 @@ router.put("/experience", [auth, validateExperienceInputs],
       const profile = await Profile.findOne({user: req.user.id});
       profile.experience.unshift(newExperience);
       await profile.save();
-      await res.json(profile)
+      res.json(profile)
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");
@@ -211,7 +211,7 @@ router.delete("/experience/:id", auth, async (req, res) => {
   profile.experience.splice(removeIndex, 1);
 
   await profile.save();
-  await res.json(profile);
+  res.json(profile);
 });
 
 /*
@@ -253,7 +253,7 @@ router.put("/education", [auth, validateEducationInputs],
       const profile = await Profile.findOne({user: req.user.id});
       profile.education.unshift(newEducation);
       await profile.save();
-      await res.json(profile)
+      res.json(profile)
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");
@@ -277,7 +277,7 @@ router.delete("/education/:id", auth,
     profile.education.splice(removeIndex, 1);
 
     await profile.save();
-    await res.json(profile);
+    res.json(profile);
   });
 
 /*
