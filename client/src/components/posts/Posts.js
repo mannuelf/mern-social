@@ -5,7 +5,13 @@ import {getPosts} from "../../store/actions/posts";
 import Spinner from "../layout/Spinner";
 import PostItem from "./PostItem";
 
-const Posts = ({getPosts, post: { posts, loading}}) => {
+const Posts = ({
+  getPosts,
+  post: {
+    posts,
+    loading
+  }
+}) => {
   useEffect(() => {
     getPosts();
   }, [getPosts])
@@ -31,7 +37,7 @@ Posts.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  post: state.posts,
+  post: state.posts
 })
 
 export default connect(mapStateToProps, {getPosts})(Posts);
