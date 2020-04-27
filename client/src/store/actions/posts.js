@@ -1,4 +1,3 @@
-import React from "react";
 import {setAlert} from "./alert";
 import Axios from "axios";
 import {
@@ -13,7 +12,7 @@ export const getPosts = () => async dispatch => {
     dispatch({
       type: GET_POSTS,
       payload: res.data
-    })
+    });
   } catch (err) {
     dispatch({
       type: POST_ERROR,
