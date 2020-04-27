@@ -8,7 +8,7 @@ import {
 // Get all posts
 export const getPosts = () => async dispatch => {
   try {
-    const res = Axios.get("/api/posts");
+    const res = await Axios.get("/api/posts");
     dispatch({
       type: GET_POSTS,
       payload: res.data
@@ -21,13 +21,12 @@ export const getPosts = () => async dispatch => {
   }
 }
 
-// Get all posts
 export const addLike = postId => async dispatch => {
   try {
-    const res = Axios.put(`/api/posts/like/${postId}`);
+    const res = await Axios.put(`/api/posts/like/${postId}`);
     dispatch({
       type: UPDATE_LIKES,
-      payload: { postId, likes: res.data }
+      payload: {postId, likes: res.data}
     });
   } catch (err) {
     dispatch({
@@ -36,13 +35,13 @@ export const addLike = postId => async dispatch => {
     })
   }
 }
-// Get all posts
+
 export const removeLike = postId => async dispatch => {
   try {
-    const res = Axios.put(`/api/posts/unlike/${postId}`);
+    const res = await Axios.put(`/api/posts/unlike/${postId}`);
     dispatch({
       type: UPDATE_LIKES,
-      payload: { postId, likes: res.data }
+      payload: {postId, likes: res.data}
     });
   } catch (err) {
     dispatch({
