@@ -2,7 +2,7 @@ import {
   GET_POSTS,
   POST_ERROR,
   UPDATE_LIKES,
-  DELETE_POSTS
+  DELETE_POSTS, ADD_POSTS
 } from "../actions/types";
 
 const initState = {
@@ -16,6 +16,12 @@ export default (state = initState, action) => {
   const {type, payload} = action;
 
   switch (type) {
+    case ADD_POSTS:
+      return {
+        ...state,
+        posts: [payload,...state.posts],
+        loading: false
+      }
     case GET_POSTS:
       return {
         ...state,

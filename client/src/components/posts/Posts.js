@@ -4,6 +4,7 @@ import {connect} from "react-redux"
 import {getPosts} from "../../store/actions/posts";
 import Spinner from "../layout/Spinner";
 import PostItem from "./PostItem";
+import PostForm from "./PostForm";
 
 const Posts = ({
   getPosts,
@@ -21,6 +22,7 @@ const Posts = ({
       <i className="fas fa-user"/>
       Welcome to the community
     </p>
+    <PostForm />
     <div className="posts">
       {!posts ? "No posts available" :
         posts.map(post => (
