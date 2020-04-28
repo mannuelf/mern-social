@@ -5,7 +5,8 @@ import {
   DELETE_POSTS,
   GET_POSTS,
   POST_ERROR,
-  UPDATE_LIKES
+  UPDATE_LIKES,
+  GET_POST
 } from "./types";
 
 // Get all posts
@@ -56,7 +57,7 @@ export const removeLike = postId => async dispatch => {
 
 export const deletePost = id => async dispatch => {
   try {
-    const res = await Axios.delete(`/api/posts/${id}`);
+    await Axios.delete(`/api/posts/${id}`);
     dispatch({
       type: DELETE_POSTS,
       payload: id
@@ -83,6 +84,23 @@ export const addPost = formData => async dispatch => {
       payload: res.data
     });
     dispatch(setAlert("Post created", "success"))
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: {msg: err.response.statusText, status: err.response.status}
+    })
+  }
+}
+
+// Get post
+export const getPost = id => async dispatch => {
+  try {
+    const res = await Axios.get(`/api/posts/${id}`);
+    console.log("☞",res);
+    dispatch({
+      type: GET_POST,
+      payload: res.data
+    });
   } catch (err) {
     dispatch({
       type: POST_ERROR,
