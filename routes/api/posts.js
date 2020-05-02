@@ -107,9 +107,7 @@ router.delete("/:id", auth,
 router.put("/like/:id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-
     const likedPosts = post.likes.filter((like) => like.user.toString() === req.user.id);
-
     if (likedPosts.length > 0) {
       return res.status(400).json({msg: "Post already liked"});
     }
@@ -139,7 +137,7 @@ router.put("/unlike/:id", auth, async (req, res) => {
       return res.status(400).json({msg: "Post has not been liked."});
     }
     // remove a like
-    const removeIndex = post.likes.map(like => like.user.toString()).indexOf(req.user.id);
+    const removeIndex = post.likes.map((like) => like.user.toString()).indexOf(req.user.id);
     post.likes.splice(removeIndex, 1);
 
     await post.save();
@@ -163,7 +161,6 @@ router.post("/comment/:id", [auth, [check("text", "Text is require").not().isEmp
     }
 
     try {
-      console.log("🤖", "got here")
       const user = await User.findById(req.user.id).select("-password");
       const post = await Post.findById(req.params.id);
 
@@ -178,7 +175,6 @@ router.post("/comment/:id", [auth, [check("text", "Text is require").not().isEmp
       await post.save();
       await res.json(post.comment);
     } catch (err) {
-      console.log(err.message);
       return res.status(500).send("No user found");
     }
   });
@@ -191,8 +187,7 @@ router.post("/comment/:id", [auth, [check("text", "Text is require").not().isEmp
 router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    // Pull comment out
-    const comment = post.comments.find(comment => comment.id === req.params.comment_id);
+    const comment = post.comments.find(comment => comment.id === req.params.comment_id); // Pull comment out
     // make sure comment exists
     if (!comment) {
       return res.status(404).json({msg: "Comment does not exist"});
@@ -208,9 +203,8 @@ router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
 
     post.comments.splice(removeIndex, 1);
     await post.save();
-    await res.json(post.comments);
+    return res.json(post.comments);
   } catch (e) {
-    console.log(e.message);
     res.status(500).send("Server Error");
   }
 });

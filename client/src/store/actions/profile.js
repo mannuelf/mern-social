@@ -7,7 +7,7 @@ import {
   UPDATE_PROFILE,
   ACCOUNT_DELETED,
   GET_PROFILES,
-  GET_REPOS
+  GET_REPOS, NO_REPOS
 } from "./types";
 
 export const getCurrentProfile = () => async dispatch => {

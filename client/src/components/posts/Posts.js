@@ -6,16 +6,11 @@ import Spinner from "../layout/Spinner";
 import PostItem from "./PostItem";
 import PostForm from "./PostForm";
 
-const Posts = ({
-  getPosts,
-  post: {
-    posts,
-    loading
-  }
-}) => {
+const Posts = ({getPosts, post: {posts, loading}}) => {
   useEffect(() => {
     getPosts();
-  }, [getPosts])
+  }, [getPosts]);
+
   return loading ? <Spinner/> : <Fragment>
     <h1 className="large text-primary">Posts</h1>
     <p className="lead">
@@ -39,7 +34,7 @@ Posts.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  post: state.posts
+  post: state.post
 })
 
 export default connect(mapStateToProps, {getPosts})(Posts);
